@@ -12,6 +12,11 @@ def calculate_position_size():
         if stop_loss <= 0 or risk_amount <= 0 or balance <= 0 or point_value <= 0:
             raise ValueError
 
+        if risk_amount > balance * 0.05:
+            messagebox.showwarning(
+                "Warning", "You are risking more than 5% of your account."
+            )
+
         contracts = risk_amount / (stop_loss * point_value)
         result_var.set(f"{contracts:.2f} MNQ Contracts")
     except ValueError:
@@ -63,12 +68,14 @@ entry_sl.grid(column=1, row=1, padx=10)
 
 ttk.Label(root, text="Risk ($):").grid(column=0, row=2, padx=10, pady=8, sticky="w")
 entry_risk = ttk.Entry(root, width=20)
+entry_risk.insert(0, "500")  # Default MNQ point value
 entry_risk.grid(column=1, row=2, padx=10)
 
 ttk.Label(root, text="Account Balance ($):").grid(
     column=0, row=3, padx=10, pady=8, sticky="w"
 )
 entry_balance = ttk.Entry(root, width=20)
+entry_balance.insert(0, "100000")  # Default MNQ point value
 entry_balance.grid(column=1, row=3, padx=10)
 
 ttk.Label(root, text="Point Value ($):").grid(
