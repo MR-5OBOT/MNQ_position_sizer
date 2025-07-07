@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from PIL import Image, ImageTk
 
 
 def calculate_position_size():
@@ -50,6 +51,15 @@ style.map(
     foreground=[("active", "white"), ("pressed", "white")],
 )
 
+# Load and resize image
+image = Image.open("/home/mr5obot/Pictures/mr5obot-logo.png")
+# Resize to a smaller size (e.g., 100x100 pixels, adjust as needed)
+image = image.resize((100, 100), Image.Resampling.LANCZOS)
+photo = ImageTk.PhotoImage(image)
+image_label = ttk.Label(root, image=photo)
+image_label.grid(column=0, row=0, columnspan=2, pady=(10, 0))
+image_label.image = photo  # Keep a reference to avoid garbage collection
+
 # Title Label
 ttk.Label(
     root,
@@ -57,43 +67,43 @@ ttk.Label(
     font=("Segoe UI", 14, "bold"),
     anchor="center",
     justify="center",
-).grid(column=0, row=0, columnspan=2, pady=(15, 10))
+).grid(column=0, row=1, columnspan=2, pady=(10, 10))
 
 # Labels and entries
 ttk.Label(root, text="Stop Loss (points):").grid(
-    column=0, row=1, padx=10, pady=8, sticky="w"
+    column=0, row=2, padx=10, pady=8, sticky="w"
 )
 entry_sl = ttk.Entry(root, width=20)
-entry_sl.grid(column=1, row=1, padx=10)
+entry_sl.grid(column=1, row=2, padx=10)
 
-ttk.Label(root, text="Risk ($):").grid(column=0, row=2, padx=10, pady=8, sticky="w")
+ttk.Label(root, text="Risk ($):").grid(column=0, row=3, padx=10, pady=8, sticky="w")
 entry_risk = ttk.Entry(root, width=20)
-entry_risk.insert(0, "500")  # Default MNQ point value
-entry_risk.grid(column=1, row=2, padx=10)
+entry_risk.insert(0, "500")
+entry_risk.grid(column=1, row=3, padx=10)
 
 ttk.Label(root, text="Account Balance ($):").grid(
-    column=0, row=3, padx=10, pady=8, sticky="w"
-)
-entry_balance = ttk.Entry(root, width=20)
-entry_balance.insert(0, "100000")  # Default MNQ point value
-entry_balance.grid(column=1, row=3, padx=10)
-
-ttk.Label(root, text="Point Value ($):").grid(
     column=0, row=4, padx=10, pady=8, sticky="w"
 )
+entry_balance = ttk.Entry(root, width=20)
+entry_balance.insert(0, "100000")
+entry_balance.grid(column=1, row=4, padx=10)
+
+ttk.Label(root, text="Point Value ($):").grid(
+    column=0, row=5, padx=10, pady=8, sticky="w"
+)
 entry_point_value = ttk.Entry(root, width=20)
-entry_point_value.insert(0, "2.00")  # Default MNQ point value
-entry_point_value.grid(column=1, row=4, padx=10)
+entry_point_value.insert(0, "2.00")
+entry_point_value.grid(column=1, row=5, padx=10)
 
 # Calculate Button
 ttk.Button(root, text="Calculate", command=calculate_position_size).grid(
-    column=0, row=5, columnspan=2, pady=15
+    column=0, row=6, columnspan=2, pady=15
 )
 
 # Result label
 result_var = tk.StringVar()
 ttk.Label(root, textvariable=result_var, font=("Segoe UI", 11, "bold")).grid(
-    column=0, row=6, columnspan=2, pady=10
+    column=0, row=7, columnspan=2, pady=10
 )
 
 # Run App
