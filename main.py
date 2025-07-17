@@ -15,96 +15,89 @@ def calculate_position_size():
 
         if risk_amount > balance * 0.05:
             messagebox.showwarning(
-                "Warning", "You are risking more than 5% of your account."
+                "Risk Warning", "You're risking more than 5% of your account!"
             )
 
         contracts = risk_amount / (stop_loss * point_value)
         result_var.set(f"{contracts:.2f} MNQ Contracts")
     except ValueError:
-        messagebox.showerror("Input Error", "Please enter valid positive numbers.")
+        messagebox.showerror("Input Error", "Please enter valid numbers.")
 
 
-# GUI setup
+# === Root Window ===
 root = tk.Tk()
 root.title("MNQ Position Size Calculator")
-root.configure(bg="#1e1e1e")
+root.configure(bg="#121212")
+root.geometry("330x450")
 root.resizable(False, False)
 
-# Theme & style
-style = ttk.Style(root)
+# === Style ===
+style = ttk.Style()
 style.theme_use("clam")
+style.configure("TFrame", background="#121212")
 style.configure(
-    "TLabel", background="#1e1e1e", foreground="white", font=("Segoe UI", 10)
+    "TLabel", background="#121212", foreground="white", font=("Segoe UI", 10)
 )
-style.configure("TEntry", fieldbackground="#2b2b2b", foreground="white")
 style.configure(
-    "TButton",
-    background="#1a1a1a",
-    foreground="white",
+    "TEntry", fieldbackground="#1e1e1e", foreground="white", insertcolor="white"
+)
+style.configure(
+    "Calc.TButton",
     font=("Segoe UI", 10, "bold"),
-    borderwidth=1,
+    padding=5,
+    background="#333333",
+    foreground="white",
 )
-
 style.map(
-    "TButton",
-    background=[("active", "#000000"), ("pressed", "#1a1a1a")],
+    "Calc.TButton",
+    background=[("active", "#444444"), ("pressed", "#222222")],
     foreground=[("active", "white"), ("pressed", "white")],
 )
 
-# Load and resize image
-image = Image.open("/home/mr5obot/Pictures/mr5obot-logo.png")
-# Resize to a smaller size (e.g., 100x100 pixels, adjust as needed)
-image = image.resize((100, 100), Image.Resampling.LANCZOS)
-photo = ImageTk.PhotoImage(image)
-image_label = ttk.Label(root, image=photo)
-image_label.grid(column=0, row=0, columnspan=2, pady=(10, 0))
-image_label.image = photo  # Keep a reference to avoid garbage collection
+# === Frame ===
+frame = ttk.Frame(root, padding=(5, 5))
+frame.pack(fill="both", expand=True)
 
-# Title Label
-ttk.Label(
-    root,
-    text="📈 MNQ POSITION SIZER",
-    font=("Segoe UI", 14, "bold"),
-    anchor="center",
-    justify="center",
-).grid(column=0, row=1, columnspan=2, pady=(10, 10))
+# === Logo ===
+try:
+    image = Image.open("/home/mr5obot/Pictures/mr5obot-logo.png")
+    image = image.resize((80, 80), Image.Resampling.LANCZOS)
+    photo = ImageTk.PhotoImage(image)
+    ttk.Label(frame, image=photo).pack(pady=(0, 5))
+except Exception as e:
+    print(f"Image error: {e}")
 
-# Labels and entries
-ttk.Label(root, text="Stop Loss (points):").grid(
-    column=0, row=2, padx=10, pady=8, sticky="w"
-)
-entry_sl = ttk.Entry(root, width=20)
-entry_sl.grid(column=1, row=2, padx=10)
-
-ttk.Label(root, text="Risk ($):").grid(column=0, row=3, padx=10, pady=8, sticky="w")
-entry_risk = ttk.Entry(root, width=20)
-entry_risk.insert(0, "500")
-entry_risk.grid(column=1, row=3, padx=10)
-
-ttk.Label(root, text="Account Balance ($):").grid(
-    column=0, row=4, padx=10, pady=8, sticky="w"
-)
-entry_balance = ttk.Entry(root, width=20)
-entry_balance.insert(0, "100000")
-entry_balance.grid(column=1, row=4, padx=10)
-
-ttk.Label(root, text="Point Value ($):").grid(
-    column=0, row=5, padx=10, pady=8, sticky="w"
-)
-entry_point_value = ttk.Entry(root, width=20)
-entry_point_value.insert(0, "2.00")
-entry_point_value.grid(column=1, row=5, padx=10)
-
-# Calculate Button
-ttk.Button(root, text="Calculate", command=calculate_position_size).grid(
-    column=0, row=6, columnspan=2, pady=15
+# === Title ===
+ttk.Label(frame, text="MNQ POSITION SIZER", font=("Segoe UI", 13, "bold")).pack(
+    pady=(0, 10)
 )
 
-# Result label
+
+# === Input Builder ===
+def make_labeled_input(label_text, default_value):
+    ttk.Label(frame, text=label_text, anchor="center", justify="center").pack(
+        pady=(6, 0)
+    )
+    entry = ttk.Entry(frame, width=24)
+    entry.insert(0, default_value)
+    entry.pack()
+    return entry
+
+
+# === Inputs with Labels and Defaults ===
+entry_sl = make_labeled_input("Stop Loss (points):", "50")
+entry_risk = make_labeled_input("Risk ($):", "500")
+entry_balance = make_labeled_input("Account Balance ($):", "100000")
+entry_point_value = make_labeled_input("Point Value ($):", "2.00")
+
+# === Button ===
+ttk.Button(
+    frame, text="Calculate", command=calculate_position_size, style="Calc.TButton"
+).pack(pady=20)
+
+# === Result ===
 result_var = tk.StringVar()
-ttk.Label(root, textvariable=result_var, font=("Segoe UI", 11, "bold")).grid(
-    column=0, row=7, columnspan=2, pady=10
-)
+ttk.Label(frame, textvariable=result_var, font=("Segoe UI", 11, "bold")).pack()
 
-# Run App
+
 root.mainloop()

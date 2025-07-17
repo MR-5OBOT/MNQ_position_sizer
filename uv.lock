@@ -143,6 +143,7 @@ dependencies = [
     { name = "cx-freeze" },
     { name = "pillow" },
     { name = "pyinstaller" },
+    { name = "ttkbootstrap" },
 ]
 
 [package.metadata]
@@ -150,6 +151,7 @@ requires-dist = [
     { name = "cx-freeze", specifier = ">=8.3.0" },
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "pyinstaller", specifier = ">=6.14.1" },
+    { name = "ttkbootstrap", specifier = ">=1.12.1" },
 ]
 
 [[package]]
@@ -306,3 +308,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/f3/86/7154b7c625a3ff704
 wheels = [
     { url = "https://files.pythonhosted.org/packages/08/3e/1418afacc4aae04690cff282078f22620c89a99490499878ececc3021654/striprtf-0.0.29-py3-none-any.whl", hash = "sha256:0fc6a41999d015358d19627776b616424dd501ad698105c81d76734d1e14d91b", size = 7879, upload-time = "2025-03-27T22:55:55.977Z" },
 ]
+
+[[package]]
+name = "ttkbootstrap"
+version = "1.12.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pillow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/da/62/c9c7c1897d59ddcea144e7c59636457d4b6e7a92f1faf1c29a96e08f2c2d/ttkbootstrap-1.12.1.tar.gz", hash = "sha256:7f599f8d52ba7f2ef48bd48359962de3682c7131b80b4e26bb9456f3c66dfee9", size = 128823, upload-time = "2025-04-27T20:47:10.625Z" }

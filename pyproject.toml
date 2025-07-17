@@ -8,4 +8,5 @@ dependencies = [
     "cx-freeze>=8.3.0",
     "pillow>=11.3.0",
     "pyinstaller>=6.14.1",
+    "ttkbootstrap>=1.12.1",
 ]
