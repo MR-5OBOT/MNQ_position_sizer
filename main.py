@@ -73,7 +73,7 @@ class PositionSizer(QWidget):
 
         # Dropdown for Symbols
         self.symbol_dropdown = QComboBox()
-        self.symbol_dropdown.addItems(["NQ", "MNQ", "ES", "MES", "GC", "MGC"])
+        self.symbol_dropdown.addItems(["MNQ", "NQ", "MES", "ES", "MGC", "GC"])
         self.symbol_dropdown.currentTextChanged.connect(self.update_point_value)
         layout.addWidget(QLabel("Select Symbol:"))
         layout.addWidget(self.symbol_dropdown)
@@ -109,12 +109,12 @@ class PositionSizer(QWidget):
 
     def update_point_value(self, symbol):
         point_values = {
-            "NQ": 20,
             "MNQ": 2,
-            "ES": 50,
+            "NQ": 20,
             "MES": 5,
-            "GC": 100,
+            "ES": 50,
             "MGC": 10,
+            "GC": 100,
         }
         if symbol in point_values:
             self.entry_point_value.setText(str(point_values[symbol]))
